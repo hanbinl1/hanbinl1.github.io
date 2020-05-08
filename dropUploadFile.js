@@ -8,9 +8,9 @@
   }
   var reader, files;
   var dropZone = document.getElementById('editor-tabs'),
-    //		progress = document.getElementById('progress'),
-    //		progressBar = document.getElementById('progressBar'),
-    outputTag = document.getElementById('output');
+      progress = document.getElementById('progress'),
+      progressBar = document.getElementById('progressBar'),
+      outputTag = document.getElementById('output');
 
   /**
    * Event handlers for ReadFile.
