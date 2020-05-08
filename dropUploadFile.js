@@ -8,9 +8,9 @@
   }
   var reader, files;
   var dropZone = document.getElementById('editor-tabs'),
-      progress = document.getElementById('progress'),
-      progressBar = document.getElementById('progressBar'),
-      outputTag = document.getElementById('output');
+   		progress = document.getElementById('progress'),
+  		progressBar = document.getElementById('progressBar'),
+    outputTag = document.getElementById('output');
 
   /**
    * Event handlers for ReadFile.
@@ -64,20 +64,12 @@
 
     return function(e) {
       var newFile = document.createElement('div');
-      var picture = document.createElement('picture');
-      var img = document.createElement('div');
+
       var contents = e.target.result;
-//      img.style.backgroundImage = 'url(' + e.target.result + ')';
- //     img.title == theFile.name;
-//      img.className = 'thumb';
+      
+      newFile.textContent = theFile.name + "\r\n";
 
-//      picture.appendChild(img);
-//      newFile.appendChild(picture);
-//      newFile.className = 'file';
-
-      //outputTag.insertBefore(newFile, null);
-
-      outputTag.textContent += theFile.name + "\r\n";
+      outputTag.appendChild(newFile);
       }
   }
 
