@@ -1,47 +1,46 @@
-(function () {
-	'use strict';
+(function() {
 
-	// Check for the various File API support.
-	if (window.File && window.FileReader && window.FileList && window.Blob)
-		console.log('OK');
-	else
-		alert('The File APIs are not fully supported in this browser.');
 
-	var reader, files;
-	var dropZone = document.getElementById('editor-tabs'),
-			progress = document.getElementById('progress'),
-			progressBar = document.getElementById('progressBar'),
-			outputTag = document.getElementById('output');
+  // Check for the various File API support.
+  if (!(window.File && window.FileReader && window.FileList && window.Blob)) {
+    window.toastr.error('The File APIs are not fully supported by your browser.');
+    return;
+  }
+  var reader, files;
+  var dropZone = document.getElementById('editor-tabs'),
+    //		progress = document.getElementById('progress'),
+    //		progressBar = document.getElementById('progressBar'),
+    outputTag = document.getElementById('output');
 
-	/**
-	 * Event handlers for ReadFile.
-	 */
+  /**
+   * Event handlers for ReadFile.
+   */
 
-	// Stop reading files.
-	function abortRead() {
-		reader.abort();
-	}
+  // Stop reading files.
+  function abortRead() {
+    reader.abort();
+  }
 
-	// FileReader abort Handler
-	function abortHandler(e) {
-		alert('File read Canceled');
-	}
+  // FileReader abort Handler
+  function abortHandler(e) {
+    alert('File read Canceled');
+  }
 
-	// FileReader Error Handler
-	function errorHandler (e) {
-		switch(e.target.error.code) {
-			case e.target.error.NOT_FOUND_ERR:
-				alert('File Not Found!');
-				break;
-			case e.target.error.NOT_READABLE_ERR:
-				alert('File is not readable');
-				break;
-			case e.target.error.ABORT_ERR:
-				break; // noop
-			default:
-				alert('An error occurred reading this file.');
-		}
-	}
+  // FileReader Error Handler
+  function errorHandler(e) {
+    switch (e.target.error.code) {
+      case e.target.error.NOT_FOUND_ERR:
+        alert('File Not Found!');
+        break;
+      case e.target.error.NOT_READABLE_ERR:
+        alert('File is not readable');
+        break;
+      case e.target.error.ABORT_ERR:
+        break; // noop
+      default:
+        alert('An error occurred reading this file.');
+    }
+  }
 
 	// Display the progress of FileReading.
 	function progressHandler(e) {
@@ -60,84 +59,77 @@
 		}
 	}
 
-	// Event after loading a file completed (Append thumbnail.)
-	function loadHandler(theFile) {
+  // Event after loading a file completed (Append thumbnail.)
+  function loadHandler(theFile) {
 
-		return function(e) {
-			var newFile = document.createElement('div');
-			var picture = document.createElement('picture');
-			var img = document.createElement('div');
-			img.style.backgroundImage = 'url(' + e.target.result + ')';
-			img.title = escape(theFile.name);
-			img.className = 'thumb';
+    return function(e) {
+      var newFile = document.createElement('div');
+      var picture = document.createElement('picture');
+      var img = document.createElement('div');
+      var contents = e.target.result;
+//      img.style.backgroundImage = 'url(' + e.target.result + ')';
+ //     img.title == theFile.name;
+//      img.className = 'thumb';
 
-			picture.appendChild(img);
-			newFile.appendChild(picture);
-			newFile.className = 'file';
+//      picture.appendChild(img);
+//      newFile.appendChild(picture);
+//      newFile.className = 'file';
 
-			outputTag.insertBefore(newFile, null);
-		}
-	}
+      //outputTag.insertBefore(newFile, null);
 
-	// Main function for ReadFile and appending thumbnails.
-	function appendThumbnail(f) {
-		reader = new FileReader();
-		reader.onerror = errorHandler;
-		reader.onabort = abortHandler;
-		reader.onprogress = progressHandler;
-		reader.onload = loadHandler(f);
-		reader.readAsDataURL(f);
-	}
+      outputTag.textContent += theFile.name + "\r\n";
+      }
+  }
 
-	/**
-	 * Main Event Handler to deal with
-	 * the whole drop & upload process.
-	 */
-	function handleFileSelect(e) {
-		e.stopPropagation();
-		e.preventDefault();
+  // Main function for ReadFile and appending thumbnails.
+  function appendThumbnail(f) {
+    reader = new FileReader();
+    reader.onerror = errorHandler;
+    reader.onabort = abortHandler;
+    reader.onprogress = progressHandler;
+    reader.onload = loadHandler(f);
+    reader.readAsText(f);
+  }
 
-		dropZone.classList.remove('dragover');
-		progress.textContent = '000';
+  /**
+   * Main Event Handler to deal with
+   * the whole drop & upload process.
+   */
+  function handleFileSelect(e) {
+    e.stopPropagation();
+    e.preventDefault();
+
+    dropZone.classList.remove('dragover');
+    progress.textContent = '000';
 		progressBar.style.width = '0%';
 
-		files = e.dataTransfer.files; // FileList object.
-		
-		// Go through each file.
-		for (var i=0, f; f=files[i]; i++) {
 
-			// Only process image files.
-			if ( !f.type.match('image.*') ) continue;
-			appendThumbnail(f);
 
-		} // END for
+    files = e.dataTransfer.files; // FileList object.
 
-	} // END handleFileSelect
+    // Go through each file.
+    for (var i = 0, len = files.length; i < len; i++) {
+      appendThumbnail(files[i]);
 
-	/**
-	 * functions associating "drag" event.
-	 */
-	function handleDragEnter (e) {
-		e.stopPropagation();
-		e.preventDefault();
-		this.classList.add('dragover');
-	}
-	function handleDragLeave (e) {
-		e.stopPropagation();
-		e.preventDefault();
-		this.classList.remove('dragover');
-	}
-	function handleDragOver (e) {
-		e.stopPropagation();
-		e.preventDefault();
-		e.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
-	}
+    } // END for
 
-	/**
-	 * Setup the event listeners.
-	 */
-	dropZone.addEventListener('dragenter', handleDragEnter, false)
-	dropZone.addEventListener('dragleave', handleDragLeave, false)
-	dropZone.addEventListener('dragover', handleDragOver, false);
-	dropZone.addEventListener('drop', handleFileSelect, false);
-})();
+  } // END handleFileSelect
+
+  /**
+   * functions associating "drag" event.
+   */
+  function preventDefault(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+
+  /**
+   * Setup the event listeners.
+   */
+  dropZone.addEventListener('dragenter', preventDefault, false)
+  dropZone.addEventListener('dragleave', preventDefault, false)
+  dropZone.addEventListener('dragover', preventDefault, false);
+  dropZone.addEventListener('drop', handleFileSelect, false);
+}) ();
+
