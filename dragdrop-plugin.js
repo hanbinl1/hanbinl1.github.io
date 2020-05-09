@@ -1,4 +1,4 @@
-/********************************************************************/
+/*/********************************************************************/
 
 define(function () {
 
@@ -10,7 +10,6 @@ define(function () {
         description: "Allow users to drag and drop file on the left pane.",
 
         initialize: function() {
-		 window.add_menu_button('Drag', 'dragMenuItem', 'glyphicon-flash', "chooseFiles('drag')");
 
         	 // Check for the various File API support.
 		    if (!(window.File && window.FileReader && window.FileList && window.Blob)) {
@@ -57,8 +56,8 @@ define(function () {
 			    r.onload = function(e) {
 			        var contents = e.target.result;
 			        createEditor();
-			        $('#tab-' + this.id).text(file.name);
-			        var editor = window.ace.edit(this.id);
+			        $('#tab-' + window.current_editor).text(file.name);
+			        var editor = window.ace.edit(window.current_editor);
 			        editor.getSession().setValue(contents);
 			    }
 			    r.readAsText(file);
