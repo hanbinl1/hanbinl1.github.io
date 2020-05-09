@@ -18,7 +18,7 @@ define(function () {
 		        return;
 		    }
 
-		    var dropRegion = document.getElementById("editors");
+		    var dropRegion = document.getElementById("editor-tabs");
 
 
 			dropRegion.addEventListener('dragenter', preventDefault, false);
