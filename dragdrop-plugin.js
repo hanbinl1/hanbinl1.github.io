@@ -10,6 +10,7 @@ define(function () {
         description: "Allow users to drag and drop file on the left pane.",
 
         initialize: function() {
+        	window.add_menu_button('Drag', 'dragMenuItem', 'glyphicon-flash', "chooseFiles('drag')");
 
         	 // Check for the various File API support.
 		    if (!(window.File && window.FileReader && window.FileList && window.Blob)) {
@@ -17,7 +18,7 @@ define(function () {
 		        return;
 		    }
 
-		    var dropRegion = document.getElementById("editors");
+		    var dropRegion = document.getElementById("editor-tabs");
 
 
 			dropRegion.addEventListener('dragenter', preventDefault, false);
