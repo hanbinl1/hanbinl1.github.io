@@ -57,8 +57,8 @@ define(function () {
 			    r.onload = function(e) {
 			        var contents = e.target.result;
 			        createEditor();
-			        $('#tab-' + window.current_editor).text(file.name);
-			        var editor = window.ace.edit(window.current_editor);
+			        $('#tab-' + this.id).text(file.name);
+			        var editor = window.ace.edit(this.id);
 			        editor.getSession().setValue(contents);
 			    }
 			    r.readAsText(file);
