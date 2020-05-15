@@ -7,7 +7,7 @@ define(function () {
         name: "Drag and Drop file",
         author: "Hanbin Li",
         email: "hanbinl1@student.unimelb.edu.au",
-        description: "Allow users to drag and drop file on the left pane.",
+        description: "Allow users to drag and drop file on the main window.",
 
         initialize: function() {
 
@@ -68,7 +68,21 @@ define(function () {
 
 
 
-        disable: function() { /* Do Nothing */ },
+        disable: function() { 
+			var dropRegion = document.getElementById("editors");
+
+
+			dropRegion.addEventListener('dragenter', preventDefault, false);
+			dropRegion.addEventListener('dragleave', preventDefault, false);
+			dropRegion.addEventListener('dragover', preventDefault, false);
+			dropRegion.addEventListener('drop', preventDefault, false);
+			
+			function preventDefault(e) {
+			    e.preventDefault();
+			    e.stopPropagation();
+			}
+
+		},
 
         save: function() {
         	return {};
@@ -80,6 +94,3 @@ define(function () {
 
     };
 });
-
-
-
