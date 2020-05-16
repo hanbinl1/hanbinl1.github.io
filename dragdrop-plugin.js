@@ -5,13 +5,11 @@ function preventDefault(e) {
     e.stopPropagation();
 }
 
-
 function handleDrop(e) {
     e.stopPropagation();
     e.preventDefault();
 
     var files = e.dataTransfer.files;
-
     for (var i = 0, len = files.length; i < len; i++) {
         if (files[i]) {
 	    previewAnduploadFile(files[i]);
@@ -20,7 +18,6 @@ function handleDrop(e) {
 	}
     }   
 }  
-
 
 function previewAnduploadFile(file) {
     var r = new FileReader();
@@ -36,7 +33,6 @@ function previewAnduploadFile(file) {
 
 
 /*/********************************************************************/
-
 define(function () {
 
     return {
