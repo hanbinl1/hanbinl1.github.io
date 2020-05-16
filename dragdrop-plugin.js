@@ -1,30 +1,4 @@
-/*/********************************************************************/
-
-define(function () {
-
-    return {
-
-        name: "Drag and Drop file",
-        author: "Hanbin Li",
-        email: "hanbinl1@student.unimelb.edu.au",
-        description: "Allow users to drag and drop file on the main window.",
-
-        initialize: function() {
-            // Check for the various File API support.
-	    if (!(window.File && window.FileReader && window.FileList && window.Blob)) {
-		window.toastr.error('The File APIs are not fully supported by your browser.');
-		return;
-	    }
-
-	    var dropRegion = document.getElementById("editors");
-
-
-	    dropRegion.addEventListener('dragenter', preventDefault, false);
-	    dropRegion.addEventListener('dragleave', preventDefault, false);
-	    dropRegion.addEventListener('dragover', preventDefault, false);
-	    dropRegion.addEventListener('drop', handleDrop, false);
-
-
+var dropRegion = document.getElementById("editors");
 
 	    function preventDefault(e) {
 		e.preventDefault();
@@ -61,20 +35,44 @@ define(function () {
 	        r.readAsText(file);
 	    }
 
+/*/********************************************************************/
+
+define(function () {
+
+    return {
+
+        name: "Drag and Drop file",
+        author: "Hanbin Li",
+        email: "hanbinl1@student.unimelb.edu.au",
+        description: "Allow users to drag and drop file on the main window.",
+
+        initialize: function() {
+            // Check for the various File API support.
+	    if (!(window.File && window.FileReader && window.FileList && window.Blob)) {
+		window.toastr.error('The File APIs are not fully supported by your browser.');
+		return;
+	    }
+
+	    
+	    dropRegion.addEventListener('dragenter', preventDefault, false);
+	    dropRegion.addEventListener('dragleave', preventDefault, false);
+	    dropRegion.addEventListener('dragover', preventDefault, false);
+	    dropRegion.addEventListener('drop', handleDrop, false);
+
+
+
+
         },
 
 
 
         disable: function() { 
-	    var dropRegion = document.getElementById("editors");
+
 	    dropRegion.removeEventListener('dragenter', preventDefault, false);
 	    dropRegion.removeEventListener('dragleave', preventDefault, false);
 	    dropRegion.removeEventListener('dragover', preventDefault, false);
-	    dropRegion.removeEventListener('drop', preventDefault, false);
-	    function preventDefault(e) {
-		e.preventDefault();
-		e.stopPropagation();
-	    }
+	    dropRegion.removeEventListener('drop', handleDrop, false);
+
 		
 
 	},
