@@ -67,7 +67,14 @@ define(function () {
 
         disable: function() { 
 	    var dropRegion = document.getElementById("editors");
-	    dropRegion.removeEventListener('drop', handleDrop);
+	    dropRegion.removeEventListener('dragenter', preventDefault, false);
+	    dropRegion.removeEventListener('dragleave', preventDefault, false);
+	    dropRegion.removeEventListener('dragover', preventDefault, false);
+	    dropRegion.removeEventListener('drop', preventDefault, false);
+	    function preventDefault(e) {
+		e.preventDefault();
+		e.stopPropagation();
+	    }
 		
 
 	},
