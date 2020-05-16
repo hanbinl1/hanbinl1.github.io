@@ -52,8 +52,6 @@ define(function () {
 		window.toastr.error('The File APIs are not fully supported by your browser.');
 		return;
 	    }
-
-	    
 	    dropRegion.addEventListener('dragenter', preventDefault, false);
 	    dropRegion.addEventListener('dragleave', preventDefault, false);
 	    dropRegion.addEventListener('dragover', preventDefault, false);
@@ -61,10 +59,7 @@ define(function () {
 
         },
 
-
-
         disable: function() { 
-
 	    dropRegion.removeEventListener('dragenter', preventDefault, false);
 	    dropRegion.removeEventListener('dragleave', preventDefault, false);
 	    dropRegion.removeEventListener('dragover', preventDefault, false);
